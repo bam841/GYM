@@ -15,9 +15,9 @@ const bookingSchema = z.object({
 type BookingValues = z.infer<typeof bookingSchema>;
 
 const PRICES = {
-  DAILY: 10,
-  WEEKLY: 50,
-  MONTHLY: 150,
+  DAILY: 70,
+  WEEKLY: 200,
+  MONTHLY: 700,
 };
 
 const BookingForm = () => {
@@ -74,30 +74,30 @@ const BookingForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
-        <label className="block text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Full Name</label>
+        <label className="block text-xs font-extrabold uppercase tracking-widest text-zinc-500 mb-2">Full Name</label>
         <input
           {...register("name")}
-          className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-100 outline-none transition-colors focus:border-orange-500"
+          className="w-full rounded-lg border border-zinc-800 bg-black p-4 text-zinc-100 outline-none transition-all focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/20"
           placeholder="Enter your name"
         />
         {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
       </div>
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Phone Number</label>
+        <label className="block text-xs font-extrabold uppercase tracking-widest text-zinc-500 mb-2">Phone Number</label>
         <input
           {...register("phoneNumber")}
-          className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-100 outline-none transition-colors focus:border-orange-500"
+          className="w-full rounded-lg border border-zinc-800 bg-black p-4 text-zinc-100 outline-none transition-all focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/20"
           placeholder="e.g., +63 9XX XXX XXXX"
         />
         {errors.phoneNumber && <p className="mt-1 text-xs text-red-500">{errors.phoneNumber.message}</p>}
       </div>
 
       <div>
-        <label className="block text-xs font-bold uppercase tracking-widest text-zinc-500 mb-2">Session Type</label>
+        <label className="block text-xs font-extrabold uppercase tracking-widest text-zinc-500 mb-2">Session Type</label>
         <select
           {...register("sessionType")}
-          className="w-full rounded-xl border border-zinc-800 bg-zinc-950 p-4 text-zinc-100 outline-none transition-colors focus:border-orange-500 appearance-none"
+          className="w-full rounded-lg border border-zinc-800 bg-black p-4 text-zinc-100 outline-none transition-all focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/20 appearance-none"
         >
           <option value="DAILY">Daily Session</option>
           <option value="WEEKLY">Weekly Pass</option>
@@ -105,15 +105,15 @@ const BookingForm = () => {
         </select>
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl bg-orange-500/10 p-6 border border-orange-500/20">
-        <span className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Total Cost</span>
-        <span className="text-3xl font-black text-orange-500">${cost}.00</span>
+      <div className="flex items-center justify-between rounded-lg bg-yellow-400/5 p-6 border border-yellow-400/20">
+        <span className="text-sm font-extrabold text-zinc-400 uppercase tracking-widest">Total Cost</span>
+        <span className="text-3xl font-black text-yellow-400">₱{cost}.00</span>
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-xl bg-orange-500 p-4 text-lg font-black text-zinc-950 transition-all hover:bg-orange-400 disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full rounded-lg bg-yellow-400 p-4 text-sm font-black tracking-widest text-zinc-950 transition-all hover:bg-yellow-500 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
       >
         {isSubmitting ? (
           <>

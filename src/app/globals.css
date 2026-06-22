@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-barlow);
+  --font-display: var(--font-oswald);
 }
 
 :root {
-  --background: #09090b; /* zinc-950 */
+  --background: #050506; /* Pitch black */
   --foreground: #fafafa; /* zinc-50 */
 }
 
@@ -34,5 +34,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-orange-500;
+  @apply bg-yellow-400;
 }
+
+/* Custom keyboard focus outline for accessibility */
+*:focus-visible {
+  @apply outline-2 outline-yellow-400 outline-offset-2;
+}
+
