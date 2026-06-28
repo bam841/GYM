@@ -14,7 +14,18 @@ export async function POST(request: Request) {
     }
 
     const session = await supabaseLogin(email, password);
-    return NextResponse.json(session);
+    const response = NextResponse.json(session);
+
+    // Set a secure HttpOnly cookie for the session
+    response.cookies.set("admin_session", session.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 24, // 1 day
+      path: "/",
+    });
+
+    return response;
   } catch (error: unknown) {
     const err = error as Error;
     console.error("Login API error:", err);

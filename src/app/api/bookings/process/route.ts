@@ -4,7 +4,7 @@ import { supabaseProcessBooking } from "@/lib/supabaseREST";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { bookingId, adminId } = body;
+    const { bookingId, adminId, grantLifetime } = body;
 
     if (!bookingId || !adminId) {
       return NextResponse.json(
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const updatedBooking = await supabaseProcessBooking(bookingId, adminId);
+    const updatedBooking = await supabaseProcessBooking(bookingId, adminId, !!grantLifetime);
     return NextResponse.json({
       success: true,
       message: "Booking processed successfully and membership activated.",

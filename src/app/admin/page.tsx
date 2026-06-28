@@ -40,7 +40,7 @@ const formatPlanType = (type: string) => {
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [activeMembers, setActiveMembers] = useState<ActiveMembership[]>([]);
-  const [activeTab, setActiveTab] = useState<"bookings" | "members">("bookings");
+  const [activeTab, setActiveTab] = useState<"bookings" | "members" | "developer">("bookings");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -102,17 +102,24 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } catch (err) {
+      console.error("Logout error:", err);
+    }
     sessionStorage.removeItem("admin_session");
     sessionStorage.removeItem("admin_id");
     setIsLoggedIn(false);
   };
 
+  const [grantLifetime, setGrantLifetime] = useState(false);
   const [activeModalBooking, setActiveModalBooking] = useState<Booking | null>(null);
   const [processing, setProcessing] = useState(false);
 
   const handleProcessBooking = (booking: Booking) => {
     setActiveModalBooking(booking);
+    setGrantLifetime(false);
   };
 
   const confirmProcessBooking = async (bookingId: string) => {
@@ -125,7 +132,7 @@ export default function AdminDashboard() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ bookingId, adminId }),
+        body: JSON.stringify({ bookingId, adminId, grantLifetime }),
       });
 
       if (!res.ok) {
@@ -327,6 +334,16 @@ export default function AdminDashboard() {
             >
               Active Members ({activeMembers.filter(m => new Date(m.endDate) > new Date()).length})
             </button>
+            <button
+               onClick={() => setActiveTab("developer")}
+              className={`px-4 py-2 text-xs font-black tracking-widest uppercase transition-all border-b-2 cursor-pointer -mb-4.5 ${
+                activeTab === "developer"
+                  ? "border-yellow-400 text-yellow-400 bg-yellow-400/5"
+                  : "border-transparent text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              Free Gym Access
+            </button>
           </div>
 
           <div className="relative w-full md:max-w-xs">
@@ -428,7 +445,7 @@ export default function AdminDashboard() {
               </table>
             </div>
           </div>
-        ) : (
+        ) : activeTab === "members" ? (
           /* Active Members Table Panel */
           <div className="rounded-lg border border-zinc-900 bg-zinc-950 overflow-hidden shadow-xl">
             <div className="border-b border-zinc-900 p-6 bg-zinc-950/50">
@@ -506,6 +523,43 @@ export default function AdminDashboard() {
               </table>
             </div>
           </div>
+        ) : (
+          /* Developer Free Gym Access Panel */
+          <div className="rounded-lg border border-zinc-900 bg-zinc-950 p-8 shadow-xl relative overflow-hidden">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="max-w-xl mx-auto text-center space-y-6">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-yellow-400/10 border border-yellow-400/25">
+                <Users className="h-10 w-10 text-yellow-400" />
+              </div>
+              
+              <div>
+                <span className="rounded-md border border-yellow-400/20 bg-yellow-400/5 px-3 py-1 text-[10px] font-extrabold text-yellow-400 uppercase tracking-wider">
+                  Developer Lifetime Pass
+                </span>
+                <h2 className="mt-4 text-3xl font-display font-black text-zinc-100 tracking-tight uppercase">
+                  John Abrahm Zapico
+                </h2>
+                <p className="mt-1 text-sm font-semibold text-yellow-400 uppercase tracking-widest">
+                  Gym Website Developer
+                </p>
+              </div>
+
+              <div className="p-4 rounded-lg bg-yellow-400/5 border border-yellow-400/10 inline-block">
+                <p className="text-xs text-zinc-400 font-medium max-w-md leading-relaxed">
+                  Granted permanent, unlimited free gym access with lifetime credentials in recognition of designing and developing the Gym Website.
+                </p>
+              </div>
+
+              <div className="pt-4 flex items-center justify-center gap-4 text-xs font-bold text-zinc-500 tracking-wider">
+                <div className="flex items-center gap-1.5 text-green-400">
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse" />
+                  STATUS: PERMANENT FREE ACCESS
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
 
@@ -543,9 +597,27 @@ export default function AdminDashboard() {
                   <span className="text-sm font-mono font-black text-yellow-400">₱{activeModalBooking.cost}</span>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-green-400 font-extrabold text-[10px] uppercase tracking-widest bg-green-400/5 border border-green-400/10 p-2.5 rounded-lg justify-center">
-                <span>✓ Membership will activate instantly</span>
+              <div className="flex items-center gap-2 mt-4 mb-2 px-1">
+                <input
+                  type="checkbox"
+                  id="grantLifetime"
+                  checked={grantLifetime}
+                  onChange={(e) => setGrantLifetime(e.target.checked)}
+                  className="rounded border-zinc-800 bg-black text-yellow-400 focus:ring-yellow-400/20 h-4 w-4 cursor-pointer"
+                />
+                <label htmlFor="grantLifetime" className="text-xs font-bold text-zinc-300 cursor-pointer select-none">
+                  Grant Permanent (Lifetime) Access
+                </label>
               </div>
+              {grantLifetime ? (
+                <div className="flex items-center gap-2 text-yellow-400 font-extrabold text-[10px] uppercase tracking-widest bg-yellow-400/5 border border-yellow-400/10 p-2.5 rounded-lg justify-center transition-all">
+                  <span>✓ Lifetime Access will activate instantly</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-green-400 font-extrabold text-[10px] uppercase tracking-widest bg-green-400/5 border border-green-400/10 p-2.5 rounded-lg justify-center transition-all">
+                  <span>✓ Membership will activate instantly</span>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3 justify-end">

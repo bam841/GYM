@@ -103,7 +103,7 @@ export async function supabaseLogin(email: string, password: string) {
 }
 
 // Atomic transaction to process booking payment and activate/extend membership
-export async function supabaseProcessBooking(bookingId: string, adminId: string): Promise<Booking> {
+export async function supabaseProcessBooking(bookingId: string, adminId: string, grantLifetime?: boolean): Promise<Booking> {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
@@ -133,8 +133,20 @@ export async function supabaseProcessBooking(bookingId: string, adminId: string)
 
     // 3. Determine expiration extension interval
     let daysToAdd = 1;
-    if (book_type && book_type.toUpperCase().includes("WEEKLY")) daysToAdd = 7;
-    else if (book_type && book_type.toUpperCase().includes("MONTHLY")) daysToAdd = 30;
+    let finalBookType = book_type;
+
+    if (grantLifetime) {
+      await client.query(
+        "UPDATE bookings SET book_type = 'LIFETIME' WHERE book_id = $1",
+        [bookingId]
+      );
+      finalBookType = "LIFETIME";
+      daysToAdd = 36500; // 100 years of permanent access
+    } else if (book_type && book_type.toUpperCase().includes("WEEKLY")) {
+      daysToAdd = 7;
+    } else if (book_type && book_type.toUpperCase().includes("MONTHLY")) {
+      daysToAdd = 30;
+    }
 
     // Check if member already has an active membership
     const activeRes = await client.query(
@@ -171,7 +183,7 @@ export async function supabaseProcessBooking(bookingId: string, adminId: string)
          membership_type = EXCLUDED.membership_type,
          start_date = EXCLUDED.start_date,
          end_date = EXCLUDED.end_date`,
-      [member_id, book_type, activeStartDate, endDate]
+      [member_id, finalBookType, activeStartDate, endDate]
     );
 
     // 5. Log in renewals history
@@ -187,7 +199,7 @@ export async function supabaseProcessBooking(bookingId: string, adminId: string)
       id: bookingRow.book_id,
       name: member.name,
       phoneNumber: member.phone_number,
-      sessionType: bookingRow.book_type,
+      sessionType: finalBookType,
       cost: Number(bookingRow.cost),
       status: bookingRow.status,
       createdAt: bookingRow.date_booked instanceof Date ? bookingRow.date_booked.toISOString() : String(bookingRow.date_booked),
