@@ -194,8 +194,8 @@ export default function AdminDashboard() {
 
   const stats = [
     { name: "Total Bookings", value: bookings.length, icon: CalendarCheck, color: "text-blue-400" },
-    { name: "Total Revenue", value: `₱${bookings.filter(b => b.status === "COMPLETED").reduce((acc, curr) => acc + curr.cost, 0)}`, icon: TrendingUp, color: "text-green-400" },
-    { name: "Active Members", value: new Set(bookings.filter(b => b.status === "COMPLETED").map(b => b.phoneNumber)).size, icon: Users, color: "text-yellow-400" },
+    { name: "Total Revenue", value: `₱${bookings.filter(b => b.status === "COMPLETED").reduce((acc, curr) => acc + Number(curr.cost), 0)}`, icon: TrendingUp, color: "text-green-400" },
+    { name: "Active Members", value: activeMembers.filter(m => new Date(m.endDate) > new Date()).length, icon: Users, color: "text-yellow-400" },
   ];
 
   if (!isMounted) {
@@ -318,14 +318,14 @@ export default function AdminDashboard() {
               Bookings Queue ({bookings.length})
             </button>
             <button
-              onClick={() => setActiveTab("members")}
+               onClick={() => setActiveTab("members")}
               className={`px-4 py-2 text-xs font-black tracking-widest uppercase transition-all border-b-2 cursor-pointer -mb-4.5 ${
                 activeTab === "members"
                   ? "border-yellow-400 text-yellow-400 bg-yellow-400/5"
                   : "border-transparent text-zinc-500 hover:text-zinc-300"
               }`}
             >
-              Active Members ({activeMembers.length})
+              Active Members ({activeMembers.filter(m => new Date(m.endDate) > new Date()).length})
             </button>
           </div>
 
