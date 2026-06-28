@@ -1,24 +1,7 @@
 import Link from "next/link";
 import BookingForm from "@/components/BookingForm";
+import EquipmentGrid from "@/components/EquipmentGrid";
 import { Mail, Phone, MapPin } from "lucide-react";
-
-const equipment = [
-  {
-    name: "Strength Equipment",
-    description: "Premium power racks, Olympic barbells, and plate-loaded machines.",
-    image: "/gymequipment.jpg",
-  },
-  {
-    name: "Full Gym Facilities",
-    description: "Vibrant and energetic lifting zones designed to maximize your gains.",
-    image: "/gympics.jpg",
-  },
-  {
-    name: "Cardio & Conditioning",
-    description: "High-performance treadmills and endurance training systems.",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop",
-  },
-];
 
 export default function Home() {
   return (
@@ -56,34 +39,38 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: EXPLORE EQUIPMENT */}
-      <section id="equipment" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center bg-black py-20 md:py-0 px-4 border-t border-zinc-950">
-        <div className="container mx-auto max-w-6xl">
+      <section id="equipment" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-45 transition-opacity duration-1000"
+          style={{ 
+            backgroundImage: "url('/focus.jpeg')",
+          }}
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/25 to-[#050506]" />
+
+        <div className="container relative z-20 mx-auto max-w-6xl">
           <h2 className="mb-12 text-center text-4xl font-display font-black tracking-tighter text-zinc-100 uppercase">
             Explore Our <span className="text-yellow-400">Equipment</span>
           </h2>
-          <div className="grid gap-8 md:grid-cols-3">
-            {equipment.map((item) => (
-              <div key={item.name} className="group overflow-hidden rounded-lg bg-zinc-950 border border-zinc-900 transition-all duration-300 hover:border-yellow-400/45 hover:-translate-y-1">
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="mb-2 text-xl font-bold text-zinc-100 tracking-tight">{item.name}</h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <EquipmentGrid />
         </div>
       </section>
 
       {/* SECTION 3: BOOK A SESSION */}
-      <section id="booking" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center bg-[#050506] py-20 md:py-0 px-4 border-t border-zinc-950">
-        <div className="container mx-auto max-w-xl">
+      <section id="booking" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
+        {/* Background Image */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 transition-opacity duration-1000"
+          style={{ 
+            backgroundImage: "url('/gympics.jpg')",
+          }}
+        />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#050506]/90 via-[#050506]/40 to-[#050506]/90" />
+
+        <div className="container relative z-20 mx-auto max-w-xl">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-display font-black tracking-tighter text-zinc-100 uppercase mb-4">
               Book a <span className="text-yellow-400">Session</span> With Us
@@ -91,7 +78,7 @@ export default function Home() {
             <p className="text-sm text-zinc-400 tracking-wide">Ready to start? Fill out the form below and we will contact you shortly.</p>
           </div>
           
-          <div className="rounded-xl bg-black p-8 border border-zinc-900 shadow-xl">
+          <div className="rounded-xl bg-black/85 p-8 border border-zinc-900 shadow-xl backdrop-blur-xs">
             <BookingForm />
           </div>
         </div>
@@ -109,7 +96,7 @@ export default function Home() {
               <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-yellow-400 to-zinc-900 opacity-20 blur transition duration-1000 group-hover:opacity-60 group-hover:duration-200" />
               <div className="relative overflow-hidden rounded-lg bg-zinc-950 ring-1 ring-zinc-900">
                 <img 
-                  src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1974&auto=format&fit=crop" 
+                  src="/OWNER.jpg" 
                   alt="Gym Owner" 
                   className="w-full h-[350px] md:h-[450px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 />
@@ -119,7 +106,10 @@ export default function Home() {
             <div className="space-y-8">
               <div>
                 <span className="text-xs font-black uppercase tracking-widest text-yellow-400">Founder & Head Coach</span>
-                <h3 className="text-3xl font-display font-black text-zinc-100 mb-4 tracking-tight">COACH MARCO</h3>
+                <h3 className="text-3xl font-display font-black text-zinc-100 mb-2 tracking-tight">COACH MARCO</h3>
+                <p className="text-sm font-semibold text-yellow-400 tracking-wide mb-6 uppercase">
+                  &quot;Your BODY SPEAKS who you are. Love your body, be body proud.&quot;
+                </p>
                 <p className="text-base text-zinc-400 leading-relaxed italic">
                   &quot;I started GYM KO TO FITNESS GYM to help our local community reach their peak physical health. With over 10 years of experience in strength training, I believe fitness is more than just lifting weights—it is a lifestyle.&quot;
                 </p>
@@ -132,7 +122,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Call Me</p>
-                    <p className="text-zinc-100 font-bold text-sm tracking-wide">+63 912 345 6789</p>
+                    <p className="text-zinc-100 font-bold text-sm tracking-wide">09853787222</p>
                   </div>
                 </div>
 
@@ -142,7 +132,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Email Me</p>
-                    <p className="text-zinc-100 font-bold text-sm tracking-wide">marco@gymkotofitness.com</p>
+                    <p className="text-zinc-100 font-bold text-sm tracking-wide">gymkoto3@gmail.com</p>
                   </div>
                 </div>
 
@@ -152,7 +142,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Our Location</p>
-                    <p className="text-zinc-100 font-bold text-sm tracking-wide">123 Fitness St, Manila, Philippines</p>
+                    <p className="text-zinc-100 font-bold text-sm tracking-wide">Biga, Villa Adella</p>
                   </div>
                 </div>
               </div>

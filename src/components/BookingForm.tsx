@@ -10,14 +10,22 @@ const bookingSchema = z.object({
   name: z.string().min(2, "Name is required"),
   phoneNumber: z.string().min(7, "Valid phone number is required"),
   sessionType: z.enum(["DAILY", "WEEKLY", "MONTHLY"]),
+  accessCategory: z.enum(["BASIC", "TREADMILL"]),
 });
 
 type BookingValues = z.infer<typeof bookingSchema>;
 
 const PRICES = {
-  DAILY: 70,
-  WEEKLY: 200,
-  MONTHLY: 700,
+  BASIC: {
+    DAILY: 100,
+    WEEKLY: 250,
+    MONTHLY: 800,
+  },
+  TREADMILL: {
+    DAILY: 100,
+    WEEKLY: 500,
+    MONTHLY: 1400,
+  },
 };
 
 const BookingForm = () => {
@@ -34,19 +42,27 @@ const BookingForm = () => {
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       sessionType: "DAILY",
+      accessCategory: "BASIC",
     },
   });
 
   const selectedType = watch("sessionType");
-  const cost = PRICES[selectedType as keyof typeof PRICES];
+  const selectedCategory = watch("accessCategory");
+  const cost = PRICES[selectedCategory as keyof typeof PRICES][selectedType as "DAILY" | "WEEKLY" | "MONTHLY"];
 
   const onSubmit = async (data: BookingValues) => {
     setIsSubmitting(true);
     try {
+      const combinedSessionType = `${data.sessionType}_${data.accessCategory}`;
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, cost }),
+        body: JSON.stringify({
+          name: data.name,
+          phoneNumber: data.phoneNumber,
+          sessionType: combinedSessionType,
+          cost,
+        }),
       });
 
       if (response.ok) {
@@ -102,6 +118,17 @@ const BookingForm = () => {
           <option value="DAILY">Daily Session</option>
           <option value="WEEKLY">Weekly Pass</option>
           <option value="MONTHLY">Monthly Membership</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="block text-xs font-extrabold uppercase tracking-widest text-zinc-500 mb-2">Access Category</label>
+        <select
+          {...register("accessCategory")}
+          className="w-full rounded-lg border border-zinc-800 bg-black p-4 text-zinc-100 outline-none transition-all focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400/20 appearance-none"
+        >
+          <option value="BASIC">Basic Gym Access</option>
+          <option value="TREADMILL">Membership + Treadmill</option>
         </select>
       </div>
 

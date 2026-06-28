@@ -1,25 +1,24 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { supabaseInsertBooking, supabaseGetBookings } from "@/lib/supabaseREST";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, phoneNumber, sessionType, cost } = body;
 
-    const booking = await prisma.booking.create({
-      data: {
-        name,
-        phoneNumber,
-        sessionType,
-        cost,
-      },
+    const booking = await supabaseInsertBooking({
+      name,
+      phoneNumber,
+      sessionType,
+      cost,
     });
 
     return NextResponse.json(booking, { status: 201 });
-  } catch (error) {
-    console.error("Booking submission error:", error);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error("Booking submission error:", err);
     return NextResponse.json(
-      { error: "Failed to create booking" },
+      { error: err.message || "Failed to create booking" },
       { status: 500 }
     );
   }
@@ -27,13 +26,13 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const bookings = await prisma.booking.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    const bookings = await supabaseGetBookings();
     return NextResponse.json(bookings);
-  } catch (error) {
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error("Booking fetch error:", err);
     return NextResponse.json(
-      { error: "Failed to fetch bookings" },
+      { error: err.message || "Failed to fetch bookings" },
       { status: 500 }
     );
   }

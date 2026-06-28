@@ -13,7 +13,7 @@ export default function Contact() {
             <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-yellow-400 to-zinc-900 opacity-20 blur transition duration-1000 group-hover:opacity-60 group-hover:duration-200" />
             <div className="relative overflow-hidden rounded-lg bg-zinc-950 ring-1 ring-zinc-900">
               <img 
-                src="https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=1974&auto=format&fit=crop" 
+                src="/OWNER.jpg" 
                 alt="Gym Owner" 
                 className="w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
@@ -23,7 +23,10 @@ export default function Contact() {
           <div className="space-y-8">
             <div>
               <span className="text-xs font-black uppercase tracking-widest text-yellow-400">Founder & Head Coach</span>
-              <h3 className="text-3xl font-display font-black text-zinc-100 mb-4 tracking-tight">COACH MARCO</h3>
+              <h3 className="text-3xl font-display font-black text-zinc-100 mb-2 tracking-tight">COACH MARCO</h3>
+              <p className="text-sm font-semibold text-yellow-400 tracking-wide mb-6 uppercase">
+                &quot;Your BODY SPEAKS who you are. Love your body, be body proud.&quot;
+              </p>
               <p className="text-base text-zinc-400 leading-relaxed italic">
                 &quot;I started GYM KO TO FITNESS GYM to help our local community reach their peak physical health. With over 10 years of experience in strength training, I believe fitness is more than just lifting weights—it is a lifestyle.&quot;
               </p>
@@ -36,7 +39,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Call Me</p>
-                  <p className="text-zinc-100 font-bold text-sm tracking-wide">+63 912 345 6789</p>
+                  <p className="text-zinc-100 font-bold text-sm tracking-wide">09853787222</p>
                 </div>
               </div>
 
@@ -46,7 +49,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Email Me</p>
-                  <p className="text-zinc-100 font-bold text-sm tracking-wide">marco@gymkotofitness.com</p>
+                  <p className="text-zinc-100 font-bold text-sm tracking-wide">gymkoto3@gmail.com</p>
                 </div>
               </div>
 
@@ -56,7 +59,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest">Our Location</p>
-                  <p className="text-zinc-100 font-bold text-sm tracking-wide">123 Fitness St, Manila, Philippines</p>
+                  <p className="text-zinc-100 font-bold text-sm tracking-wide">Biga, Villa Adella</p>
                 </div>
               </div>
             </div>
