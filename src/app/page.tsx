@@ -5,10 +5,10 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="h-screen w-full overflow-y-auto snap-y snap-mandatory scroll-smooth bg-[#050506]">
+    <div className="h-screen w-full overflow-y-auto md:snap-y md:snap-mandatory scroll-smooth bg-[#050506]">
       
       {/* SECTION 1: HERO */}
-      <section id="hero" className="relative flex h-screen w-full snap-start snap-always flex-col items-center justify-center overflow-hidden">
+      <section id="hero" className="relative flex h-screen w-full md:snap-start md:snap-always flex-col items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-40 transition-opacity duration-1000"
@@ -39,7 +39,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 2: EXPLORE EQUIPMENT */}
-      <section id="equipment" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
+      <section id="equipment" className="relative flex min-h-screen w-full md:snap-start md:snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
         {/* Background Image */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-45 transition-opacity duration-1000"
@@ -59,7 +59,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 3: BOOK A SESSION */}
-      <section id="booking" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
+      <section id="booking" className="relative flex min-h-screen w-full md:snap-start md:snap-always flex-col justify-center items-center overflow-hidden py-20 md:py-0 px-4 border-t border-zinc-950">
         {/* Background Image */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-25 transition-opacity duration-1000"
@@ -85,7 +85,7 @@ export default function Home() {
       </section>
 
       {/* SECTION 4: MEET THE OWNER / CONTACT */}
-      <section id="contact" className="relative flex min-h-screen w-full snap-start snap-always flex-col justify-center items-center bg-black py-20 md:py-0 px-4 border-t border-zinc-950">
+      <section id="contact" className="relative flex min-h-screen w-full md:snap-start md:snap-always flex-col justify-center items-center bg-black py-20 md:py-0 px-4 border-t border-zinc-950">
         <div className="container mx-auto max-w-4xl">
           <h2 className="mb-16 text-center text-4xl font-display font-black tracking-tighter text-zinc-100 uppercase">
             Meet the <span className="text-yellow-400">Owner</span>
