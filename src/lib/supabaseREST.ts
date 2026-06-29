@@ -29,6 +29,8 @@ export async function supabaseInsertBooking(bookingData: {
 
   if (memberRes.rows.length > 0) {
     memberId = memberRes.rows[0].id;
+    // Update the member's name to the latest name entered for this phone number
+    await query("UPDATE members SET name = $1 WHERE id = $2", [cleanName, memberId]);
   } else {
     const insertMemberRes = await query(
       "INSERT INTO members (name, phone_number) VALUES ($1, $2) RETURNING id",
