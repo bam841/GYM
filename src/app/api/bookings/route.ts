@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabaseInsertBooking, supabaseGetBookings } from "@/lib/supabaseREST";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
